@@ -25,9 +25,6 @@
             border: 1px solid #ccc;
             border-radius: 4px;
         }
-        textarea {
-            height: 100px;
-        }
         button {
             width: 100%;
             padding: 10px;
@@ -40,81 +37,117 @@
         button:hover {
             background-color: #45a049;
         }
+        .output {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+            border-radius: 4px;
+        }
         .success-message {
             color: green;
             font-weight: bold;
             margin-top: 10px;
         }
-        .link-button {
-            margin: 20px auto 0 auto;
-            background-color: #007BFF;
+        .contact-link {
+            margin-top: 40px;
             text-align: center;
-            text-decoration: none;
-            display: block;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-            width: max-content;
         }
-        .link-button:hover {
+        .contact-link a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+        .contact-link a:hover {
             background-color: #0056b3;
         }
     </style>
 </head>
 <body>
     <h1>依頼フォーム</h1>
-    <form id="contactForm">
+    <form id="userForm">
         <label for="chatName">オープンチャットでの名前</label>
-        <input type="text" id="chatName" placeholder="オープンチャットでの名前を入力（日本語、英語、数字）" required>
+        <input type="text" id="chatName" placeholder="オープンチャットでの名前を入力" required>
 
-        <label for="permission">オープンチャットでの権限</label>
-        <select id="permission" required>
-            <option value="">権限を選択してください</option>
+        <label for="username">ユーザーネーム</label>
+        <input type="text" id="username" placeholder="ユーザーネームを入力" required>
+
+        <label for="userId">ID</label>
+        <input type="text" id="userId" placeholder="IDを入力（アルファベットと数字）" required>
+
+        <label for="role">オープンチャットでの権限</label>
+        <select id="role" required>
             <option value="副管理者">副管理者</option>
             <option value="依頼を受けてる人">依頼を受けてる人</option>
             <option value="メンバー">メンバー</option>
         </select>
 
-        <label for="username">ユーザーネーム</label>
-        <input type="text" id="username" placeholder="ユーザーネームを入力" required>
+        <label for="request">依頼内容</label>
+        <textarea id="request" placeholder="依頼内容を入力（日本語、英語、数字のみ）" required></textarea>
 
-        <label for="message">依頼内容</label>
-        <textarea id="message" placeholder="お問い合わせ内容を入力" required></textarea>
-
-        <button type="button" onclick="submitForm()">送信</button>
+        <button type="button" onclick="submitForm()">確定</button>
     </form>
 
-    <div id="successMessage" class="success-message" style="display: none;">送信完了！</div>
+    <div class="output" id="output" style="display: none;">
+        <h3>入力内容</h3>
+        <p id="outputChatName"></p>
+        <p id="outputUsername"></p>
+        <p id="outputUserId"></p>
+        <p id="outputRole"></p>
+        <p id="outputRequest"></p>
+    </div>
 
-    <!-- お問い合わせフォームに行くボタン -->
-    <a href="https://osushisushhi.github.io/otoiawase/" class="link-button">お問い合わせフォームに行く</a>
+    <div id="successMessage" class="success-message" style="display: none;">success!</div>
+
+    <div class="contact-link">
+        <a href="https://osushisushhi.github.io/otoiawase/">お問い合わせフォームへ</a>
+    </div>
 
     <script>
         function submitForm() {
             // 入力値を取得
             const chatName = document.getElementById("chatName").value;
-            const permission = document.getElementById("permission").value;
             const username = document.getElementById("username").value;
-            const message = document.getElementById("message").value;
+            const userId = document.getElementById("userId").value;
+            const role = document.getElementById("role").value;
+            const request = document.getElementById("request").value;
 
-            // 入力値のバリデーション（例: 空欄チェック）
-            if (!chatName || !permission || !username || !message) {
-                alert("全てのフィールドを入力してください。");
-                return;
+            // IDの形式チェック（アルファベットと数字のみ）
+            const userIdPattern = /^[A-Za-z0-9]+$/;
+            if (!userIdPattern.test(userId)) {
+                alert("IDはアルファベットと数字のみで入力してください。");
+                return; // IDが不正な場合は処理を中断
             }
 
-            // Discord WebhookのURLを指定
-            const webhookURL = 'https://discord.com/api/webhooks/1319532905340473384/OHk4MNGfsknfs9KyJ2QjkcZBizcxa4zTTOWQ9BvsE2F-ROOFf1Jb1naUhFugWg0_GZI3';
+            // Webhook URLを権限に基づいて設定
+            let webhookURL;
+            if (role === "副管理者") {
+                webhookURL = 'https://discord.com/api/webhooks/1319813629750804500/nKgwhvoD5a5Akf1k3lyZr4z_4qM_axAC6H5UZUxJzaD6LU7zCc5fWLW6wp4aqAyVrfPg';
+            } else if (role === "依頼を受けてる人") {
+                webhookURL = 'https://discord.com/api/webhooks/1319813934835957861/bs4-lRyy9dPNpnUw26dh0sQmST832ejm8xblpXAJOu8igNSSb6mM4YXvWygAL0BzIxZx';
+            } else if (role === "メンバー") {
+                webhookURL = 'https://discord.com/api/webhooks/1319532905340473384/OHk4MNGfsknfs9KyJ2QjkcZBizcxa4zTTOWQ9BvsE2F-ROOFf1Jb1naUhFugWg0_GZI3';
+            }
+
+            // 入力内容を表示
+            document.getElementById("outputChatName").textContent = `オープンチャットでの名前: ${chatName}`;
+            document.getElementById("outputUsername").textContent = `ユーザーネーム: ${username}`;
+            document.getElementById("outputUserId").textContent = `ID: ${userId}`;
+            document.getElementById("outputRole").textContent = `権限: ${role}`;
+            document.getElementById("outputRequest").textContent = `依頼内容: ${request}`;
+            document.getElementById("output").style.display = "block";
 
             // Webhookに送信するデータを作成
             const payload = {
                 content: `\`\`\`
 オープンチャットでの名前: ${chatName}
-権限: ${permission}
 ユーザーネーム: ${username}
-依頼内容:
-${message}
+ID: ${userId}
+権限: ${role}
+依頼内容: ${request}
 \`\`\``
             };
 
@@ -128,16 +161,12 @@ ${message}
             })
             .then(response => {
                 if (response.ok) {
-                    document.getElementById("successMessage").style.display = "block"; // 成功メッセージを表示
+                    document.getElementById("successMessage").style.display = "block"; // 成功時にメッセージを表示
                 } else {
                     console.error('Error:', response.status);
-                    alert("送信に失敗しました。");
                 }
             })
-            .catch(error => {
-                console.error('Error:', error);
-                alert("エラーが発生しました。");
-            });
+            .catch(error => console.error('Error:', error));
         }
     </script>
 </body>
