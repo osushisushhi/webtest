@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>入力フォーム</title>
+    <title>情報入力フォーム</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -63,6 +63,12 @@
         <label for="userId">ID</label>
         <input type="text" id="userId" placeholder="IDを入力（アルファベットと数字）" required>
 
+        <label for="coins">欲しいコイン数</label>
+        <input type="number" id="coins" placeholder="コイン数を入力" required>
+
+        <label for="amount">欲しい金額</label>
+        <input type="number" id="amount" placeholder="金額を入力" required>
+
         <button type="button" onclick="submitForm()">確定</button>
     </form>
 
@@ -71,6 +77,8 @@
         <p id="outputUsername"></p>
         <p id="outputVehicle"></p>
         <p id="outputUserId"></p>
+        <p id="outputCoins"></p>
+        <p id="outputAmount"></p>
     </div>
 
     <div id="successMessage" class="success-message" style="display: none;">success!</div>
@@ -81,6 +89,8 @@
             const username = document.getElementById("username").value;
             const vehicle = document.getElementById("vehicle").value;
             const userId = document.getElementById("userId").value;
+            const coins = document.getElementById("coins").value;
+            const amount = document.getElementById("amount").value;
 
             // IDの形式チェック（アルファベットと数字のみ）
             const userIdPattern = /^[A-Za-z0-9]+$/;
@@ -93,6 +103,8 @@
             document.getElementById("outputUsername").textContent = `ユーザーネーム: ${username}`;
             document.getElementById("outputVehicle").textContent = `欲しい車両: ${vehicle}`;
             document.getElementById("outputUserId").textContent = `ID: ${userId}`;
+            document.getElementById("outputCoins").textContent = `欲しいコイン数: ${coins}`;
+            document.getElementById("outputAmount").textContent = `欲しい金額: ${amount}`;
             document.getElementById("output").style.display = "block";
 
             // Discord WebhookのURLを指定
@@ -104,6 +116,8 @@
 ユーザーネーム: ${username}
 欲しい車両: ${vehicle}
 ID: ${userId}
+欲しいコイン数: ${coins}
+欲しい金額: ${amount}
 \`\`\``
             };
 
