@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>依頼フォーム</title>
+    <title>お問い合わせフォーム</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -25,6 +25,9 @@
             border: 1px solid #ccc;
             border-radius: 4px;
         }
+        textarea {
+            height: 100px;
+        }
         button {
             width: 100%;
             padding: 10px;
@@ -37,92 +40,65 @@
         button:hover {
             background-color: #45a049;
         }
-        .output {
-            margin-top: 20px;
-            padding: 10px;
-            border: 1px solid #ccc;
-            background-color: #f9f9f9;
-            border-radius: 4px;
-        }
         .success-message {
             color: green;
             font-weight: bold;
             margin-top: 10px;
         }
-        .contact-link {
-            margin-top: 40px;
-            text-align: center;
-        }
-        .contact-link a {
-            display: inline-block;
-            padding: 10px 20px;
+        .link-button {
+            margin-top: 20px;
             background-color: #007BFF;
-            color: white;
+            text-align: center;
             text-decoration: none;
+            display: inline-block;
+            color: white;
+            padding: 10px 20px;
             border-radius: 4px;
+            cursor: pointer;
         }
-        .contact-link a:hover {
+        .link-button:hover {
             background-color: #0056b3;
         }
     </style>
 </head>
 <body>
-    <h1>依頼フォーム</h1>
-    <form id="userForm">
+    <h1>お問い合わせフォーム</h1>
+    <form id="contactForm">
         <label for="username">ユーザーネーム</label>
         <input type="text" id="username" placeholder="ユーザーネームを入力" required>
 
-        <label for="userId">ID</label>
-        <input type="text" id="userId" placeholder="IDを入力（アルファベットと数字）" required>
+        <label for="message">お問い合わせ内容</label>
+        <textarea id="message" placeholder="お問い合わせ内容を入力" required></textarea>
 
-        <label for="request">依頼内容</label>
-        <textarea id="request" placeholder="依頼内容を入力（日本語、英語、数字のみ）" required></textarea>
-
-        <button type="button" onclick="submitForm()">確定</button>
+        <button type="button" onclick="submitForm()">送信</button>
     </form>
 
-    <div class="output" id="output" style="display: none;">
-        <h3>入力内容</h3>
-        <p id="outputUsername"></p>
-        <p id="outputUserId"></p>
-        <p id="outputRequest"></p>
-    </div>
+    <div id="successMessage" class="success-message" style="display: none;">送信が完了しました！</div>
 
-    <div id="successMessage" class="success-message" style="display: none;">success!</div>
-
-    <div class="contact-link">
-        <a href="https://osushisushhi.github.io/otoiawase/">お問い合わせフォームへ</a>
-    </div>
+    <!-- 依頼フォームに行くボタン -->
+    <a href="https://osushisushhi.github.io/webtest/" class="link-button">依頼フォームに行く</a>
 
     <script>
         function submitForm() {
             // 入力値を取得
             const username = document.getElementById("username").value;
-            const userId = document.getElementById("userId").value;
-            const request = document.getElementById("request").value;
+            const message = document.getElementById("message").value;
 
-            // IDの形式チェック（アルファベットと数字のみ）
-            const userIdPattern = /^[A-Za-z0-9]+$/;
-            if (!userIdPattern.test(userId)) {
-                alert("IDはアルファベットと数字のみで入力してください。");
-                return; // IDが不正な場合は処理を中断
+            // 入力値のバリデーション（例: 空欄チェック）
+            if (!username || !message) {
+                alert("全てのフィールドを入力してください。");
+                return;
             }
 
-            // 入力内容を表示
-            document.getElementById("outputUsername").textContent = `ユーザーネーム: ${username}`;
-            document.getElementById("outputUserId").textContent = `ID: ${userId}`;
-            document.getElementById("outputRequest").textContent = `依頼内容: ${request}`;
-            document.getElementById("output").style.display = "block";
-
             // Discord WebhookのURLを指定
-            const webhookURL = 'https://discord.com/api/webhooks/1319532905340473384/OHk4MNGfsknfs9KyJ2QjkcZBizcxa4zTTOWQ9BvsE2F-ROOFf1Jb1naUhFugWg0_GZI3';
+            const webhookURL = 'https://discord.com/api/webhooks/1319611940837785631/eFfGXEd9fTipqn7p5XwY-whjtpze_n6sO61ObhZF3i1MdR4Q61CWrOyfJuT8uvFPU3H2';
 
             // Webhookに送信するデータを作成
             const payload = {
                 content: `\`\`\`
 ユーザーネーム: ${username}
-ID: ${userId}
-依頼内容: ${request}
+お問い合わせ内容:
+${message}
 \`\`\``
             };
 
@@ -136,12 +112,16 @@ ID: ${userId}
             })
             .then(response => {
                 if (response.ok) {
-                    document.getElementById("successMessage").style.display = "block"; // 成功時にメッセージを表示
+                    document.getElementById("successMessage").style.display = "block"; // 成功メッセージを表示
                 } else {
                     console.error('Error:', response.status);
+                    alert("送信に失敗しました。");
                 }
             })
-            .catch(error => console.error('Error:', error));
+            .catch(error => {
+                console.error('Error:', error);
+                alert("エラーが発生しました。");
+            });
         }
     </script>
 </body>
