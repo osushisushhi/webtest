@@ -79,7 +79,7 @@
         <label for="username">ユーザーネーム</label>
         <input type="text" id="username" placeholder="ユーザーネームを入力" required>
 
-        <label for="message">お問い合わせ内容</label>
+        <label for="message">依頼内容</label>
         <textarea id="message" placeholder="お問い合わせ内容を入力" required></textarea>
 
         <button type="button" onclick="submitForm()">送信</button>
@@ -88,7 +88,7 @@
     <div id="successMessage" class="success-message" style="display: none;">送信完了！</div>
 
     <!-- 依頼フォームに行くボタン -->
-    <a href="https://osushisushhi.github.io/webtest/" class="link-button">依頼フォームに行く</a>
+    <a href="https://osushisushhi.github.io/webtest/" class="link-button">お問い合わせフォームに行く</a>
 
     <script>
         function submitForm() {
@@ -113,7 +113,7 @@
 オープンチャットでの名前: ${chatName}
 権限: ${permission}
 ユーザーネーム: ${username}
-お問い合わせ内容:
+依頼内容:
 ${message}
 \`\`\``
             };
