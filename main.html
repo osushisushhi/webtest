@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>入力フォーム</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .output {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>情報入力フォーム</h1>
+    <form id="userForm">
+        <label for="username">ユーザーネーム</label>
+        <input type="text" id="username" placeholder="ユーザーネームを入力" required>
+
+        <label for="vehicle">欲しい車両</label>
+        <input type="text" id="vehicle" placeholder="車両名を入力" required>
+
+        <label for="userId">ID</label>
+        <input type="number" id="userId" placeholder="IDを入力" required>
+
+        <button type="button" onclick="submitForm()">確定</button>
+    </form>
+
+    <div class="output" id="output" style="display: none;">
+        <h3>入力内容</h3>
+        <p id="outputUsername"></p>
+        <p id="outputVehicle"></p>
+        <p id="outputUserId"></p>
+    </div>
+
+    <script>
+        function submitForm() {
+            // 入力値を取得
+            const username = document.getElementById("username").value;
+            const vehicle = document.getElementById("vehicle").value;
+            const userId = document.getElementById("userId").value;
+
+            // 入力内容を表示
+            document.getElementById("outputUsername").textContent = `ユーザーネーム: ${username}`;
+            document.getElementById("outputVehicle").textContent = `欲しい車両: ${vehicle}`;
+            document.getElementById("outputUserId").textContent = `ID: ${userId}`;
+            document.getElementById("output").style.display = "block";
+        }
+    </script>
+</body>
+</html>
