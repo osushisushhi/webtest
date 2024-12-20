@@ -73,7 +73,6 @@
         <p id="outputUserId"></p>
     </div>
 
-    <!-- 成功メッセージ表示用 -->
     <div id="successMessage" class="success-message" style="display: none;">success!</div>
 
     <script>
@@ -91,6 +90,26 @@
 
             // 成功メッセージを表示
             document.getElementById("successMessage").style.display = "block";
+
+            // Discord WebhookのURLを指定
+            const webhookURL = 'https://discord.com/api/webhooks/WEBHOOK_ID/WEBHOOK_TOKEN'; // ここに取得したWebhook URLを入力
+
+            // Webhookに送信するデータを作成
+            const payload = {
+                content: `ユーザーネーム: ${username}\n欲しい車両: ${vehicle}\nID: ${userId}`
+            };
+
+            // Fetch APIを使用してWebhookにPOSTリクエストを送信
+            fetch(webhookURL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(response => response.json())
+            .then(data => console.log('Success:', data))
+            .catch(error => console.error('Error:', error));
         }
     </script>
 </body>
