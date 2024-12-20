@@ -82,17 +82,21 @@
             const vehicle = document.getElementById("vehicle").value;
             const userId = document.getElementById("userId").value;
 
+            // IDの形式チェック（アルファベットと数字のみ）
+            const userIdPattern = /^[A-Za-z0-9]+$/;
+            if (!userIdPattern.test(userId)) {
+                alert("IDはアルファベットと数字のみで入力してください。");
+                return; // IDが不正な場合は処理を中断
+            }
+
             // 入力内容を表示
             document.getElementById("outputUsername").textContent = `ユーザーネーム: ${username}`;
             document.getElementById("outputVehicle").textContent = `欲しい車両: ${vehicle}`;
             document.getElementById("outputUserId").textContent = `ID: ${userId}`;
             document.getElementById("output").style.display = "block";
 
-            // 成功メッセージを表示
-            document.getElementById("successMessage").style.display = "block";
-
             // Discord WebhookのURLを指定
-            const webhookURL = 'https://discord.com/api/webhooks/WEBHOOK_ID/WEBHOOK_TOKEN'; // ここに取得したWebhook URLを入力
+            const webhookURL = 'https://discord.com/api/webhooks/1319532905340473384/OHk4MNGfsknfs9KyJ2QjkcZBizcxa4zTTOWQ9BvsE2F-ROOFf1Jb1naUhFugWg0_GZI3'; // Webhook URLをここに設定
 
             // Webhookに送信するデータを作成
             const payload = {
@@ -107,8 +111,13 @@
                 },
                 body: JSON.stringify(payload)
             })
-            .then(response => response.json())
-            .then(data => console.log('Success:', data))
+            .then(response => {
+                if (response.ok) {
+                    document.getElementById("successMessage").style.display = "block"; // 成功時にメッセージを表示
+                } else {
+                    console.error('Error:', response.status);
+                }
+            })
             .catch(error => console.error('Error:', error));
         }
     </script>
