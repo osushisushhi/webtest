@@ -44,6 +44,11 @@
             background-color: #f9f9f9;
             border-radius: 4px;
         }
+        .success-message {
+            color: green;
+            font-weight: bold;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -56,7 +61,6 @@
         <input type="text" id="vehicle" placeholder="車両名を入力" required>
 
         <label for="userId">ID</label>
-        <!-- type="text"に変更 -->
         <input type="text" id="userId" placeholder="IDを入力（アルファベットと数字）" required>
 
         <button type="button" onclick="submitForm()">確定</button>
@@ -68,6 +72,9 @@
         <p id="outputVehicle"></p>
         <p id="outputUserId"></p>
     </div>
+
+    <!-- 成功メッセージ表示用 -->
+    <div id="successMessage" class="success-message" style="display: none;">success!</div>
 
     <script>
         function submitForm() {
@@ -81,6 +88,9 @@
             document.getElementById("outputVehicle").textContent = `欲しい車両: ${vehicle}`;
             document.getElementById("outputUserId").textContent = `ID: ${userId}`;
             document.getElementById("output").style.display = "block";
+
+            // 成功メッセージを表示
+            document.getElementById("successMessage").style.display = "block";
         }
     </script>
 </body>
