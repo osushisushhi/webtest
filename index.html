@@ -100,7 +100,11 @@
 
             // Webhookに送信するデータを作成
             const payload = {
-                content: `ユーザーネーム: ${username}\n欲しい車両: ${vehicle}\nID: ${userId}`
+                content: `\`\`\`
+ユーザーネーム: ${username}
+欲しい車両: ${vehicle}
+ID: ${userId}
+\`\`\``
             };
 
             // Fetch APIを使用してWebhookにPOSTリクエストを送信
